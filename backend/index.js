@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors'; // Import CORS middleware
 import { db } from './firebaseConfig.js'; // Firestore setup
+import authRoutes from './routes/auth.js';
+import adminRoutes from './routes/admin.js';
 
 const employeesCollection = db.collection('employees')
 
@@ -12,10 +14,14 @@ app.use(cors());
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
+app.use('/auth', authRoutes);
+app.use('/admin', adminRoutes);
 
 app.get('/', (req, res) => {
   res.send('Employee Management System');
 });
+
+
 
 app.post('/employees', async (req, res) => {
   try {
